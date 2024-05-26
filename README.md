@@ -1,49 +1,49 @@
-Library Management System
+# Library Management System
 
 This Django-based library management system efficiently manages books, borrows, and user accounts, offering functionalities for librarians and users.
 
-Features:
+## Features
 
-    Book Management:
-        Librarians can add, edit, and delete books.
-        Filter and search books by author, title, genre, and ISBN.
-        View statistics like total borrows for each book and stock levels.
-    Borrowing and Returning:
-        Users can request to borrow available books.
-        Librarians can issue and return books on behalf of users.
-        System validates stock availability and prevents over-borrowing.
-    User Management:
-        Users can register, login, and view their profile, including a list of borrowed books.
-        Custom user model with email as the unique identifier (replace with username if needed).
-    Additional Functionalities (Optional):
-        Include API endpoints for book management and statistics using Django REST framework.
-        Implement late return tracking and penalty mechanisms.
-        Create roles and permissions for different user types (librarian, standard user).
+- **Book Management:**
+   - Librarians can add, edit, and delete books.
+   - Filter and search books by author, title, genre, and ISBN.
+   - View statistics like total borrows for each book and stock levels.
+- **Borrowing and Returning:**
+   - Users can request to borrow available books.
+   - Librarians can issue and return books on behalf of users.
+   - System validates stock availability and prevents over-borrowing.
+- **User Management:**
+   - Users can register, login, and view their profile, including a list of borrowed books.
+   - Custom user model with email as the unique identifier (replace with username if needed).
+- **Additional Functionalities (Optional):**
+   - Include API endpoints for book management and statistics using Django REST framework.
+   - Implement late return tracking and penalty mechanisms.
+   - Create roles and permissions for different user types (librarian, standard user).
 
-Requirements:
+## Requirements
 
-    Python 3.x
-    Django (tested with version 3.x)
-    Django REST framework (optional, for API endpoints)
-    Other dependencies listed in requirements.txt
+- Python 3.x
+- Django (tested with version 3.x)
+- Django REST framework (optional, for API endpoints)
+- Other dependencies listed in `requirements.txt`
 
-Installation:
+## Installation
 
-    Clone the repository.
-    Create a virtual environment:
+1. Clone the repository.
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+
+Use code with caution.
+
+    Install dependencies:
     Bash
 
-    python -m venv venv
-    source venv/bin/activate
+    pip install -r requirements.txt
 
     Use code with caution.
 
-Install dependencies:
-Bash
-
-pip install -r requirements.txt
-
-Use code with caution.
 Run database migrations:
 Bash
 
@@ -65,7 +65,7 @@ python manage.py createsuperuser
 
 Use code with caution.
 
-Usage:
+Usage
 
     Start the development server:
     Bash
@@ -76,31 +76,23 @@ Usage:
 
     Access the application in your web browser at http://127.0.0.1:8000/
 
-Additional Notes:
+Additional Notes
 
     User authentication and permission checks are implemented using Django's built-in mechanisms and custom permissions.
     Code adheres to best practices for Django development, including code organization, documentation, and testing (implement unit tests as needed).
 
-Customization:
+Customization
 
     You can customize the application's functionalities by modifying the provided views, templates, and serializers.
     Additional features can be implemented to suit your specific library management needs.
 
-Contributing:
+Contributing
 
 We welcome contributions to this project! Please create pull requests for bug fixes or new features.
-
-License:
+License
 
 This project is licensed under the MIT License.
-
-Additional Information (Optional):
-
-    Feel free to include screenshots demonstrating the application's user interface.
-    Provide links to relevant documentation for Django and Django REST framework.
-    Mention any specific testing frameworks or tools used in the project.
-
-Models:
+Models
 
 users.models.CustomUser (replace with auth.User if not using a custom user model)
 
@@ -140,4 +132,5 @@ book_flow.models.BorrowHistory
         Borrower (foreign key)
         Issued (boolean flag)
         Returned (boolean flag)
-        Borrow
+        Borrow date (datetime field)
+        Return date (datetime field, optional)
