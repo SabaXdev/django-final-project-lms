@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}My Issued Books{% endblock %}
+
+{% block content %}
+    <h1 class="issued-books-title">My Issued Books</h1>
+    {% if books %}
+        <ul class="issued-books-list">
+            {% for book in books %}
+                <li class="issued-book {% if not book.returned %}borrowed{% endif %}">
+                    <strong>Title:</strong> {{ book.book.title }}<br>
+                    <strong>Author:</strong> {{ book.book.author.name }}<br>
+                    <strong>Stock:</strong> {{ book.book.stock}}<br>
+                    <strong>Borrow Date:</strong> {{ book.borrow_date }}<br>
+                    <strong>Return Date:</strong> {{ book.return_date }}<br>
+                    <strong>Issued:  </strong> {{ book.issued|yesno:"Yes,No" }}<br>
+                    <strong>Returned:</strong> {{ book.returned|yesno:"Yes,No" }}<br>
+                    {% if not book.returned %}
+                        <form method="post" action="{% url 'book_flow:return_book' book.book.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Return</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no issued books.</p>
+    {% endif %}
+{% endblock %}

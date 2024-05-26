@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}My Site{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Library Management System</h1>
+        <a href="{% url 'book_flow:book_list' %}">Books</a>
+        {% if request.user.is_authenticated %}
+            Welcome
+            {{request.user.full_name}}
+            <a href="{% url 'users:logout' %}">Log out</a>
+            <a href="{% url 'users:profile' %}">My Profile</a>
+        {% else %}
+            <a href="{% url 'users:register' %}">Sign up</a>
+            <a href="{% url 'users:login' %}">Log in</a>
+        {% endif %}
+    </header>
+
+    <main>
+        {% block content %}
+            <p>This is main block of base html</p>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Book Site, This is footer</p>
+    </footer>
+</body>
+</html>
