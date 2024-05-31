@@ -1,0 +1,250 @@
+/* Base html */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5; /* Light background color */
+}
+
+/* Header */
+header {
+  background-color: #fff; /* White header background */
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  display: flex; /* Allow horizontal layout for navigation */
+  justify-content: space-between; /* Space out content horizontally */
+  align-items: center; /* Align vertically */
+}
+
+header h1 {
+  font-size: 1.8em;
+  margin: 0;
+}
+
+header a {
+  color: #007bff; /* Primary blue color for links */
+  text-decoration: none;
+  margin: 0 10px; /* Add some space between links */
+  font-weight: bold; /* Bold navigation links */
+}
+
+header a:hover {
+  text-decoration: underline; /* Underline links on hover */
+}
+
+/* Main Content */
+main {
+  padding: 20px;
+  min-height: calc(100vh - 130px); /* Account for header and footer heights */
+}
+
+/* Footer */
+footer {
+  background-color: #eee; /* Light gray footer background */
+  padding: 10px;
+  text-align: center;
+}
+
+
+
+/* Book List*/
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 200px;
+  background-color: #f5f5f5;
+}
+
+/* Book List Container */
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 auto; /* Center the list horizontally */
+  max-width: 900px; /* Adjust as needed */
+  padding: 0;
+}
+
+/* Individual Book Items */
+.book-item {
+  width: 22%; /* Adjust for desired number of columns per row */
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px; /* Rounded corners */
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.2s ease-in-out; /* Smooth hover effects */
+}
+
+/* Book Item on Hover */
+.book-item:hover {
+  transform: scale(1.02); /* Slight zoom on hover */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Emphasize the shadow */
+}
+
+/* Book Image */
+.book-item img {
+  width: 100%; /* Fill the item width */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 10px;
+}
+
+/* Book Title */
+.book-item strong {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+/* Book Author */
+.book-item p {
+  font-size: 0.9em;
+  margin-bottom: 0;
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.pagination a:hover {
+  text-decoration: underline;
+}
+
+
+/* Book Detail */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+/* Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures content fills the viewport height */
+}
+
+/* Book Detail Section */
+.book-detail {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 600px; /* Adjust as needed */
+  text-align: center;
+}
+
+/* Book Title */
+.book-detail h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+/* Book Details */
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 500px; /* Limit details width for better layout */
+}
+
+.details p {
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  width: 48%; /* Adjust width for two columns */
+}
+
+.details p strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Book Image */
+.details img {
+  width: 70%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* Issue Book Button */
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Base styles for the list */
+.issued-books-list {
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.issued-book {
+  display: flex; /* Arrange items in a row */
+  justify-content: space-between; /* Distribute items evenly */
+  margin-bottom: 1rem; /* Add some spacing between list items */
+  padding: 0.5rem 1rem; /* Add padding for readability */
+  border-radius: 5px; /* Add subtle rounded corners */
+  background-color: #f5f5f5; /* Light background color */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  border: 5px solid #252727;
+}
+
+/* Title style */
+.issued-books-title {
+  font-weight: bold;
+  margin-bottom: 1rem; /* Add space after title */
+  text-align: center; /* Center align the title */
+}
+
+/* Style for returned/borrowed indication */
+.borrowed {
+  background-color: #ffebeb; /* Light red for borrowed books */
+}
+
+/* Style the return button */
+button {
+  background-color: #4CAF50; /* Green for return button */
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; /* Indicate clickable element */
+}
+
+
+
+

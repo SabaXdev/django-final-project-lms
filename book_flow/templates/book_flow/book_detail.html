@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Book detail {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="book-detail">
+            <h1>{{ book.title }}</h1>
+            <div class="details">
+                {% if book.image_url %}
+                    <img src="{{ book.image_url }}" alt="{{ book.title }} cover">
+                {% endif %}
+                <p><strong>Author:</strong> {{ book.author.name }}</p>
+                <p><strong>Published Date:</strong> {{ book.published_date }}</p>
+                <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                <p><strong>Stock:</strong> {{ book.stock }}</p>
+                <p><strong>Total Borrowed:</strong> {{ book.total_borrowed }}</p>
+                <p><strong>Currently Borrowed:</strong> {{ book.currently_borrowed }}</p>
+                <a href="{% url 'book_flow:issue_book' book.pk %}" class="btn btn-primary">Issue Book</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
