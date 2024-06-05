@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import ListView, DetailView
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
@@ -18,7 +18,8 @@ from book_flow.models import Book, BorrowHistory
 from django.db.models import Count, F, Q, OuterRef, Subquery
 from book_flow.permissions import IsLibrarian
 from users.models import CustomUser
-from book_flow.serializers import MostBorrowedBooksSerializer, BookIssueCountSerializer, TopLateReturnedBooksSerializer, TopLateReturnUsersSerializer, BookSerializer
+from book_flow.serializers import (MostBorrowedBooksSerializer, BookIssueCountSerializer,
+                                   TopLateReturnedBooksSerializer, TopLateReturnUsersSerializer, BookSerializer)
 
 
 class BookListCreateView(ListCreateAPIView):
@@ -130,7 +131,7 @@ class IssueBookView(View):
             BorrowHistory.objects.create(book=book, borrower=self.request.user, issued=True)
             book.currently_borrowed += 1
             book.total_borrowed += 1
-            book.save()
+            book.save(update_fields=['currently_borrowed', 'total_borrowed'])
 
         messages.success(request, 'Book - {} Requested successfully'.format(book.title))
         return render(request, self.template_name, {"book": book})
@@ -146,9 +147,9 @@ class ReturnBookView(View):
         borrow_history = BorrowHistory.objects.filter(book=book, borrower=self.request.user).first()
         if borrow_history:
             book.currently_borrowed -= 1
-            book.save()
+            book.save(update_fields=['currently_borrowed'])
             borrow_history.returned = True
             borrow_history.return_date = timezone.now()
-            borrow_history.save()
+            borrow_history.save(update_fields=['returned', 'return_date'])
         messages.success(request, 'Book - {} Returned successfully'.format(book.title))
         return redirect(reverse('users:profile'))
