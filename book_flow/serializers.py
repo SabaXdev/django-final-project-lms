@@ -16,11 +16,11 @@ class BookSerializer(ModelSerializer):
 
 
 class MostBorrowedBooksSerializer(ModelSerializer):
-    total_borrows = serializers.IntegerField()
+    total_borrowed = serializers.IntegerField()
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'total_borrows']
+        fields = ['id', 'title', 'author', 'total_borrowed']
 
 
 class BookIssueCountSerializer(ModelSerializer):
@@ -44,4 +44,4 @@ class TopLateReturnUsersSerializer(ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'late_returns']
+        fields = ['id', 'full_name', 'late_returns']
