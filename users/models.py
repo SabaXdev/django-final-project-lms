@@ -10,12 +10,12 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(_('full name'), max_length=150)
     email = models.EmailField(_('email address'), unique=True)
     personal_number = models.CharField(_('personal number'), max_length=20)
-    birth_date = models.DateField(_('birth date'))
+    # birth_date = models.DateField(_('birth date'))
     is_librarian = models.BooleanField(default=False)
     is_authorized = models.BooleanField(default=True if settings.DEBUG else False, verbose_name=_("Is Authorized"))
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['full_name', 'personal_number', 'birth_date']
+    REQUIRED_FIELDS = ['full_name', 'personal_number']
 
     objects = CustomUserManager()
 

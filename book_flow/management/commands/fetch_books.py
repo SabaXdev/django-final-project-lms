@@ -1,3 +1,5 @@
+import re
+
 import requests
 import random
 from datetime import datetime
@@ -9,15 +11,49 @@ from django.db.utils import IntegrityError
 class Command(BaseCommand):
     help = 'Generate books from Google Books API'
 
+    def process_description(self, description):
+        """
+        Ensures the description is between 50 and 100 words and ends with a dot.
+        """
+        if not description:
+            return None
+
+        # Split description into words
+        words = description.split()
+
+        # Check word count
+        word_count = len(words)
+        if word_count < 50:
+            return None  # Skip descriptions with fewer than 50 words
+
+        # If word count exceeds 100, truncate to 100 words, respecting sentence boundaries
+        if word_count > 100:
+            # Rejoin words into a truncated text of 100 words
+            truncated_text = " ".join(words[:100])
+
+            # Find the last sentence boundary using regex (dot, question mark, or exclamation mark)
+            sentences = re.split(r'(?<=[.!?])\s+', truncated_text)
+            truncated_text = " ".join(sentences[:-1]) if len(sentences) > 1 else truncated_text
+
+        else:
+            truncated_text = description
+
+        # Ensure the description ends with a single dot
+        truncated_text = truncated_text.rstrip()
+        if not truncated_text.endswith('.'):
+            truncated_text += '.'
+
+        return truncated_text
+
     def handle(self, *args, **kwargs):
         API_KEY = 'AIzaSyCPvHmtlFLs3BrJ-G_LmmvTFZen9ifa0YI'
-        total_books_to_fetch = 2000
+        total_books_to_fetch = 1000
         books_fetched = 0
-        subjects = ['classic', 'adventure', 'fiction']
+        subjects = ['classic', 'fiction', 'adventure', 'history', 'science', 'fantasy', 'romance', 'philosophy']
         max_results = 40
 
         for subject in subjects:
-            start_index = 0
+            start_index = random.randint(0, 100)
 
             while books_fetched < total_books_to_fetch:
                 url = f'https://www.googleapis.com/books/v1/volumes?q=subject:{subject}&startIndex={start_index}&maxResults={max_results}&key={API_KEY}'
@@ -31,8 +67,11 @@ class Command(BaseCommand):
                     volume_info = item['volumeInfo']
 
                     title = volume_info.get('title', 'Unknown Title')
+                    publisher = volume_info.get('publisher')
                     published_date = volume_info.get('publishedDate', '2000-01-01')
                     authors = volume_info.get('authors', [])
+                    description = self.process_description(description=volume_info.get('description', ''))
+                    pageCount = volume_info.get('pageCount', [])
                     categories = volume_info.get('categories', [])
                     image_links = volume_info.get('imageLinks', {})
                     isbn_list = volume_info.get('industryIdentifiers', [])
@@ -43,7 +82,17 @@ class Command(BaseCommand):
                             isbn = identifier['identifier']
                             break
 
-                    if isbn is None or Book.objects.filter(isbn=isbn).exists():
+                    # Skip books that do not meet any of the following criteria
+                    if (
+                            not title or
+                            not publisher or
+                            not description or
+                            not volume_info.get('imageLinks', {}).get('thumbnail') or
+                            not categories or
+                            not any(subject.lower() in category.lower() for category in categories) or
+                            isbn is None or
+                            Book.objects.filter(isbn=isbn).exists()
+                    ):
                         continue
 
                     try:
@@ -62,8 +111,8 @@ class Command(BaseCommand):
 
                     genre_objs = []
 
-                    if not categories:
-                        categories = ["Unknown"]
+                    # if not categories:
+                    #     categories = ["Unknown"]
 
                     for category in categories:
                         genre_obj, created = Genre.objects.get_or_create(name=category)
@@ -75,8 +124,11 @@ class Command(BaseCommand):
                     book = Book(
                         author=author_obj,
                         title=title,
+                        description=description,
+                        publisher=publisher,
                         published_date=published_date,
                         stock=stock,
+                        pages=pageCount,
                         total_borrowed=random.randint(currently_borrowed, currently_borrowed + 20),
                         currently_borrowed=currently_borrowed,
                         image_url=image_links.get('thumbnail', ''),

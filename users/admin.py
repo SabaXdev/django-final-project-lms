@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from users.models import CustomUser
 
@@ -10,7 +9,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['full_name', 'email', 'personal_number', 'birth_date', 'is_librarian', 'is_authorized']
+    list_display = ['full_name', 'email', 'personal_number', 'is_librarian', 'is_authorized']
     list_filter = ['is_authorized', 'is_librarian']
     ordering = ['date_joined']
 
@@ -27,7 +26,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': (
                 'email', 'full_name',
                 'password1', 'password2',
-                'personal_number', 'birth_date',
+                'personal_number',
                 'is_librarian', 'is_authorized'),
         }),
     )

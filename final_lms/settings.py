@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# LOCALE_PATHS = [
+#     BASE_DIR / 'locale',  # Add this line to specify the location of translations
+# ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,15 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'django_filters',
     'rest_framework',
+
     'book_flow',
     'users',
+
+    'livereload'
 ]
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ],
@@ -59,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'final_lms.urls'
@@ -90,8 +100,14 @@ WSGI_APPLICATION = 'final_lms.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'library_db',
+        'USER': 'postgres',         # Change if using a different user
+        'PASSWORD': 'admin123',     # Use your actual PostgreSQL password
+        'HOST': 'localhost',        # Or your PostgreSQL server's IP
+        'PORT': '5432',             # Default PostgreSQL port
     }
 }
 
@@ -149,3 +165,12 @@ LOGIN_REDIRECT_URL = 'users:home'
 LOGOUT_REDIRECT_URL = 'users:home'
 
 LOGIN_URL = 'users:home'
+
+# Email configuration
+
+
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True

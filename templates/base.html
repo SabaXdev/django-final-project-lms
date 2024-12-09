@@ -1,33 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}My Site{% endblock %}</title>
+    <title>{% block base %}Base HTML{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/books/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/books/book_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/books/book_list.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/books/book_search.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/books/book_issue.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/books/book_statistics.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/users/profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/users/my_shelf.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
 </head>
 <body>
-    <header>
-        <h1>Library Management System</h1>
-        <a href="{% url 'book_flow:book_list' %}">Books</a>
-        {% if request.user.is_authenticated %}
-            Welcome
-            {{request.user.full_name}}
-            <a href="{% url 'users:logout' %}">Log out</a>
-            <a href="{% url 'users:profile' %}">My Profile</a>
-        {% else %}
-            <a href="{% url 'users:register' %}">Sign up</a>
-            <a href="{% url 'users:login' %}">Log in</a>
-        {% endif %}
-    </header>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                My <span>Book</span> Shelf
+            </div>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="{% url 'users:home' %}">Home</a></li>
+                    <li><a href="{% url 'book_flow:book_search' %}">Search</a></li>
+                    <li><a href="{% url 'users:my_shelf' %}">My Shelf</a></li>
+                    <li><a href="{% url 'book_flow:book-statistics' %}">Stats</a></li>
+                </ul>
+            </nav>
+            <footer class="footer-links">
+                <a href="/about">About</a>
+                <a href="/support">Support</a>
+                <a href="/terms">Terms & Conditions</a>
+            </footer>
+        </aside>
 
-    <main>
-        {% block content %}
-            <p>This is main block of base html</p>
-        {% endblock %}
-    </main>
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Header -->
+            <header class="header">
+                <div class="search-bar">
+                    <form method="GET" action="{% url 'book_flow:book_search' %}" class="search-form">
+                        <input type="text" name="query" placeholder="Search by Title, Author, Keyword or ISBN" aria-label="Search Books">
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="header-controls">
+                    <div class="datetime-container">
+                        <div id="current-date">
+                            <span class="calendar-icon">📅</span>
+                            <span id="date-text"></span>
+                        </div>
+                        <div id="current-time">
+                            <span class="clock-icon">⏰</span>
+                            <span id="time-text"></span>
+                        </div>
+                    </div>
+                    <nav>
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" id="dropdownToggle" aria-expanded="false">
+                                    {{ request.user.full_name }}
+                                </button>
+                                <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+                                    <a href="{% url 'users:profile' %}">Profile</a>
+                                    <a href="">Favourites</a>
+                                    <a href="">Payments</a>
+                                    <a href="{% url 'users:logout' %}">Log out</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'users:register' %}">Sign up</a>
+                            <a href="{% url 'users:login' %}">Log in</a>
+                        {% endif %}
+                    </nav>
+                </div>
+            </header>
 
-    <footer>
-        <p>&copy; 2024 My Book Site, This is footer</p>
-    </footer>
+            <!-- Main Section -->
+            <main class="main-content">
+                {% block content %}
+                <!-- Dynamic content will be rendered here -->
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+
+
 </body>
 </html>
