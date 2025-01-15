@@ -12,15 +12,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/books/book_statistics.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/users/profile.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/users/my_shelf.css' %}">
+    <!-- Swiper CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="{% static 'js/script.js' %}"></script>
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="logo">
-                My <span>Book</span> Shelf
-            </div>
+            <a href="{% url 'users:home' %}">
+                <div class="logo">
+                    My <span>Book</span> Shelf
+                </div>
+            </a>
             <nav>
                 <ul class="nav-list">
                     <li><a href="{% url 'users:home' %}">Home</a></li>
@@ -42,9 +47,19 @@
             <header class="header">
                 <div class="search-bar">
                     <form method="GET" action="{% url 'book_flow:book_search' %}" class="search-form">
-                        <input type="text" name="query" placeholder="Search by Title, Author, Keyword or ISBN" aria-label="Search Books">
+                        <input
+                                type="text"
+                                id="search-input"
+                                name="query"
+                                placeholder="Search by Title, Author, Keyword or ISBN"
+                                aria-label="Search Books"
+                                autocomplete="off"
+                        >
                         <button type="submit">Search</button>
                     </form>
+                    <div id="suggestions-container" class="suggestions">
+                        <!-- Suggestions will appear here -->
+                    </div>
                 </div>
                 <div class="header-controls">
                     <div class="datetime-container">
@@ -65,8 +80,7 @@
                                 </button>
                                 <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
                                     <a href="{% url 'users:profile' %}">Profile</a>
-                                    <a href="">Favourites</a>
-                                    <a href="">Payments</a>
+                                    <a href="{% url 'users:my_shelf' %}">Favourites</a>
                                     <a href="{% url 'users:logout' %}">Log out</a>
                                 </div>
                             </div>

@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
-//  In my_shelf.html -> Favorite and Borrowed Books buttons
+    // Book carousel slider in homepage
+    new Swiper('.swiper', {
+      slidesPerView: 10, // Number of books visible
+      spaceBetween: 20, // Space between slides
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      loop: true, // Infinite scrolling
+      autoplay: {
+        delay: 5000, // Auto-slide every 5 seconds
+        disableOnInteraction: false,
+      },
+    });
+
+    // In my_shelf.html -> Favorite and Borrowed Books buttons
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabContents = document.querySelectorAll(".tab-content");
 
@@ -67,38 +82,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //  Remove book to Favorites
-    document.querySelectorAll('.unheart-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const bookId = this.getAttribute('data-book-id');
+    document.querySelectorAll('.remove-favorite-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const bookId = this.getAttribute('data-book-id');
 
-        // Add a loading indicator
-        this.disabled = true;
+            // Add a loading indicator
+            this.disabled = true;
 
-        fetch(`/books/remove_from_favorites/${bookId}/`, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.message === "Book removed from favorites!") {
-                // Remove the book element from the DOM
-                alert(data.message); // Optional: Show confirmation
-            } else {
-                alert(data.message);
+            fetch(`/books/remove_from_favorites/${bookId}/`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message === "Book removed from favorites!") {
+                    // Remove the book element from the DOM
+                    const bookCard = this.closest('.book-card');
+                    bookCard.remove();
+                } else {
+                    // Show an error message
+                    alert(data.message);
+                    this.disabled = false;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
                 this.disabled = false;
-            }
-
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            this.disabled = false;
+            });
         });
     });
-});
-
-
 
 
     const toggleButton = document.getElementById('dropdownToggle');
@@ -117,6 +131,67 @@ document.addEventListener('DOMContentLoaded', function () {
             dropdownMenu.style.display = 'none';
         }
     });
+
+    // Book-Search bar
+    const searchInput = document.getElementById('search-input');
+    const suggestionsContainer = document.getElementById('suggestions-container');
+
+    // Event listener for search input
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        if (query.length > 2) {
+            fetch(`/books/search/?query=${encodeURIComponent(query)}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsContainer.innerHTML = '';
+                    suggestionsContainer.style.display = 'block'; // Show suggestions container
+
+                    // Create the unordered list
+                    const ul = document.createElement('ul');
+                    ul.classList.add('suggestions-list'); // Add a class for styling
+
+                    data.results.forEach(book => {
+                        const li = document.createElement('li');
+                        li.classList.add('suggestion-item');
+                        li.innerHTML = `
+                            <a href="/books/book_detail/${book.id}" class="suggestion-link">
+                                <img src="${book.image_url}" alt="${book.title}">
+                                <div class="suggestion-info">
+                                    <strong>${book.title}</strong><br>
+                                    <small>${book.author}</small>
+                                </div>
+                            </a>
+                        `;
+                        ul.appendChild(li);
+                    });
+                    suggestionsContainer.appendChild(ul);
+                });
+        } else {
+            suggestionsContainer.innerHTML = '';
+            suggestionsContainer.style.display = 'none'; // Hide suggestions if query is too short
+        }
+    });
+
+    // Hide suggestions container when clicking outside
+    document.addEventListener('click', (event) => {
+        if (
+            !suggestionsContainer.contains(event.target) &&
+            !searchInput.contains(event.target)
+        ) {
+            suggestionsContainer.style.display = 'none'; // Hide container
+        }
+    });
+
+    // Show suggestions container when focusing on the search bar
+    searchInput.addEventListener('focus', () => {
+        if (searchInput.value.length > 2) {
+            suggestionsContainer.style.display = 'block'; // Show container when focused
+        }
+    });
+
+
 
     function updateDateTime() {
         const now = new Date();

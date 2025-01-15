@@ -15,6 +15,7 @@ urlpatterns = [
     path('my_shelf/', MyBookShelf.as_view(), name='my_shelf'),
     # OTP verification
     path('otp-verification/', OTPVerificationView.as_view(), name='otp_verification'),
-    path('verification-success/', TemplateView.as_view(template_name="users/verification_success.html"), name='verification_success'),
+    path('verification-success/', TemplateView.as_view(template_name="users/verification_success.html"),
+         name='verification_success'),
 
 ]

@@ -9,15 +9,22 @@
 
   <div class="new-arrivals">
     <h2>New Arrivals</h2>
-    <div class="book-carousel">
-      {% for book in books|slice:":15"%}
-      <div class="homepage-book-item">
-        <a href="{% url 'book_flow:book_detail' book.pk %}">
-          <img src="{{ book.image_url }}" alt="{{ book.title }} cover">
-        </a>
+    <div class="book-carousel swiper">
+      <div class="swiper-wrapper">
+        {% for book in books|slice:":15" %}
+        <div class="swiper-slide homepage-book-item">
+          <a href="{% url 'book_flow:book_detail' book.pk %}">
+            <img src="{{ book.image_url }}" alt="{{ book.title }} cover">
+          </a>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
+
+      <!-- Optional navigation -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
+
   </div>
 
   <div class="recommended-section">
@@ -26,7 +33,7 @@
       <a href="{% url 'book_flow:book_search' %}" class="show-all-button">Show All</a>
     </div>
     <div class="homepage-book-list">
-      {% for book in books|slice:":15" %}
+      {% for book in books|slice:":9" %}
       <div class="homepage-book-item">
         <a href="{% url 'book_flow:book_detail' book.pk %}">
           <img src="{{ book.image_url }}" alt="{{ book.title }} cover">

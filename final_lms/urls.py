@@ -26,7 +26,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('users/', include('users.urls', namespace='users')),
     path('', lambda request: redirect('users:login')),
-    path('books/', include('book_flow.urls', namespace='book_flow')),  # Correctly include book_flow URLs with namespace
+    path('books/', include('book_flow.urls', namespace='book_flow')),
     path('i18n/', include('django.conf.urls.i18n')),  # Add this line
 ]
 

@@ -41,14 +41,15 @@ html, body {
 }
 
 .sidebar .logo {
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #e5e5e5;
 }
 
 .sidebar .logo span {
-    color: #f4c542;
+    color: #f27851;
 }
 
 .nav-list {
@@ -94,7 +95,7 @@ html, body {
 .content-wrapper {
     background-color: #171717;
     flex-grow: 1;
-    padding: 2rem;
+
     margin-left: 250px;
 
 
@@ -116,10 +117,8 @@ html, body {
     justify-content: space-between;
     align-items: center;
     gap: 1.5rem;
-    border-bottom: 1px solid #2f2f2f;
     position: relative;              /* sticky new */
     top: 0;
-        margin-left: 20px;
         width: calc(100% - 20px);
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
@@ -146,6 +145,7 @@ html, body {
 .search-bar input {
     border: none;
     outline: none;
+    color: white;
 
     width: 500px;          /*Late added */
     max-width: 600px;
@@ -170,6 +170,58 @@ html, body {
 
 .search-bar button:hover {
     background: #468c28;
+}
+
+.suggestions {
+    border: 1px solid #2f2f2f;
+    top: 80px;
+    border-top: none;
+    max-height: 400px;
+    position: fixed;
+    width: 695px;
+    background: white;
+    position: absolute;
+    left: 20px;
+}
+
+.suggestions-list {
+    list-style: none;
+    background: #1d1d1d;
+    margin: 0;
+    padding: 0;
+}
+
+.suggestion-item {
+    transition: background-color 0.3s ease;
+}
+
+.suggestion-item a {
+    color: #fff;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #2f2f2f;
+    cursor: pointer;
+}
+.suggestion-item a img {
+    width: 80px;
+    height: 110px;
+    margin-right: 10px;
+    object-fit: cover;
+}
+.suggestion-item:hover {
+    background-color: #333333;
+}
+
+.suggestion-info {
+    flex-grow: 1;
+}
+
+.suggestion-info strong {
+    font-weight: 700;
+}
+.suggestion-info small {
+    color: #919191;
 }
 
 
@@ -268,12 +320,12 @@ html, body {
 /* Main Content */
 .main-content {
     background-color: #171717;
-    padding: 2rem;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex-grow: 1;
     margin: 1rem auto;
-        margin-left: 20px;
+
         width: calc(100% - 20px);
 
         flex-grow: 1;
@@ -306,6 +358,37 @@ html, body {
 .pagination {
   text-align: center;
   margin-top: 20px;
+  padding: 30px 0;
+}
+
+.pagination-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+}
+
+.pagination-list li {
+  float: left;
+  margin-right: 10px;
+}
+
+.pagination-list li a {
+  border-radius: 40px;
+  width: 45px;
+  height: 45px;
+  background: #242731;
+  color: #fff;
+  font-size: 16px;
+  padding: 12px 20px;
+  text-decoration: none;
+}
+
+.pagination-list li.current-page a {
+  background: #ff6a00;
+  border: 1px solid #ddd;
+  color: white;
+  font-weight: bold;
 }
 
 .pagination a {
@@ -315,7 +398,7 @@ html, body {
 }
 
 .pagination a:hover {
-  text-decoration: underline;
+  background-color: #ff6a00;
 }
 
 /* --------------- End Base.html ---------------  */

@@ -27,19 +27,20 @@
 .book-header {
   display: flex;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
-  gap: 60px;
+
   margin-bottom: 30px;
   flex-direction: row;
-  justify-content: space-between;
+
+
   align-items: flex-start;
   margin-right: auto; /* Ensure it doesn't occupy the full row */
 
 }
 
 .book-cover img {
-  width: 150px;
-  height: 200px;
-  padding: 5px;
+  width: auto;
+  height: auto;
+  border: 2px solid #f27851;
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -180,19 +181,23 @@ h1, h3, h4 {
 }
 
 
+.book-detail-info {
+  margin-left: 180px;
+
+}
+
 /* Online Bookstores Section */
 .online-bookstores {
   text-align: center; /* Centers the title */
-  background-color: #f9f9f9;
-  padding: 20px;
+  background-color: #2e2e2e;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-left: 240px;
+  margin-left: 310px;
   max-width: 100%; /* Ensures it fits within the container */
-  width: 660px; /* Sets a fixed width */
+  width: 640px; /* Sets a fixed width */
   height: auto; /* Adjusts the height based on content */
   box-sizing: border-box; /* Includes padding and border in the width and height calculation */
-
 }
 
 .online-bookstores h3 {
@@ -215,12 +220,12 @@ h1, h3, h4 {
     width: 120px; /* Sets a fixed width for each link */
     height: 150px; /* Sets a fixed height for each link */
     text-decoration: none; /* Removes underline from the link */
-    color: #000; /* Ensures text color is black */
+    color: #e0e0e0; /* Ensures text color is black */
 }
 
 .bookstore-link img {
-    width: 80px; /* Adjust the image size */
-    height: auto; /* Keeps the aspect ratio */
+    width: 70px; /* Adjust the image size */
+    height: 60px; /* Keeps the aspect ratio */
     margin-bottom: 10px; /* Adds space between the image and text */
 }
 

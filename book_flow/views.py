@@ -24,7 +24,6 @@ from book_flow.forms import BookSearchForm, IssueBookForm
 from book_flow.models import Book, BorrowHistory, Genre, Favorite
 from django.db.models import Count, F, Q, OuterRef, Subquery
 from book_flow.permissions import IsLibrarian
-from book_flow.tasks import notify_users
 from users.models import CustomUser
 from book_flow.serializers import (MostBorrowedBooksSerializer, BookIssueCountSerializer, TopLateReturnedBooksSerializer
 , TopLateReturnUsersSerializer, BookSerializer)
@@ -203,6 +202,27 @@ class BookSearchView(FormView):
         context['genres'] = Genre.objects.all()
         return context
 
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('query', '').strip()
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and query:
+            books = Book.objects.filter(
+                Q(title__icontains=query) |
+                Q(author__name__icontains=query) |
+                Q(genre__name__icontains=query) |
+                Q(isbn__icontains=query)
+            ).distinct()[:5]  # Limit to 5 results
+            results = [
+                {
+                    'id': book.id,
+                    'title': book.title,
+                    'author': book.author.name,
+                    'image_url': book.image_url,
+                }
+                for book in books
+            ]
+            return JsonResponse({'results': results})
+        return super().get(request, *args, **kwargs)
+
 
 class BookList(ListView):
     model = Book
@@ -314,18 +334,21 @@ class ReturnBookView(View):
     def post(self, request, book_id):
         book = get_object_or_404(Book, id=book_id)
 
-        borrow_history = BorrowHistory.objects.filter(book=book, borrower=self.request.user).first()
+        borrow_history = BorrowHistory.objects.filter(book=book, borrower=self.request.user, returned=False).first()
         if borrow_history:
-            book.currently_borrowed -= 1
-            book.save()
+            # Ensure currently_borrowed doesn't go below 0
+            if book.currently_borrowed > 0:
+                book.currently_borrowed -= 1
+                book.save()
+
             borrow_history.returned = True
             borrow_history.return_date = timezone.now()
             borrow_history.save()
-        messages.success(request, f'Book - {book.title} Returned successfully')
-        JsonResponse({"message": f'Book - {book.title} Returned successfully'})
+        messages.success(request, f'Book - {book.title} returned successfully')
+        JsonResponse({"message": f'Book - {book.title} returned successfully'})
 
+        # Redirect back to the previous page
         return_url = request.META.get('HTTP_REFERER')
-
         return HttpResponseRedirect(return_url)
 
 

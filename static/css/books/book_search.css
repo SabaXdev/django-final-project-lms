@@ -70,7 +70,7 @@
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  background-color: #ffffff; /* White background */
+  background-color: #222222;
   margin: 20px 0;
   font-size: 16px; /* Slightly larger font for readability */
   text-align: left;
@@ -90,11 +90,11 @@
 
 /* Table Body Rows */
 .book-table tbody tr {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid black;
 }
 
 .book-table tbody tr:hover {
-  background-color: #e6f7ff; /* Lighter blue on hover */
+  background-color: #121212;
   transition: background-color 0.3s ease;
 }
 
@@ -110,7 +110,7 @@
   padding: 12px;
 }
 
-.book-image {
+.search-book-image {
   max-width: 100px; /* Larger image size */
   border-radius: 6px; /* Rounded corners */
   margin: 0 auto;
@@ -119,11 +119,12 @@
 /* Title & Author Column */
 .book-info-cell {
   padding: 12px;
+  color: #fffefe;
 }
 
 .book-info-cell strong {
   font-size: 20px; /* Larger title text */
-  color: #333;
+  color: white;
 }
 
 .book-info-cell small {
@@ -134,12 +135,12 @@
 /* Genre Column */
 .book-genres-cell {
   padding: 12px;
-  color: #555;
+  color: #fffefe;
 }
 
 .book-genre {
   display: inline-block;
-  background-color: #cce7ff; /* Lighter blue background */
+  background-color: #ff6a00; /* Lighter blue background */
   padding: 6px 14px;
   border-radius: 6px;
   font-weight: 500;
@@ -153,7 +154,7 @@
 .book-stock-cell {
   padding: 12px;
   font-size: 16px;
-  color: #333;
+  color: #fffefe;
   text-align: center;
 }
 

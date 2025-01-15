@@ -46,7 +46,7 @@ class Command(BaseCommand):
         return truncated_text
 
     def handle(self, *args, **kwargs):
-        API_KEY = 'AIzaSyCPvHmtlFLs3BrJ-G_LmmvTFZen9ifa0YI'
+        API_KEY = ''
         total_books_to_fetch = 1000
         books_fetched = 0
         subjects = ['classic', 'fiction', 'adventure', 'history', 'science', 'fantasy', 'romance', 'philosophy']
@@ -87,6 +87,7 @@ class Command(BaseCommand):
                             not title or
                             not publisher or
                             not description or
+                            not pageCount or
                             not volume_info.get('imageLinks', {}).get('thumbnail') or
                             not categories or
                             not any(subject.lower() in category.lower() for category in categories) or

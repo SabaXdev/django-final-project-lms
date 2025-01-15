@@ -5,8 +5,7 @@ from django.conf import settings
 
 def send_verification_email(user, request):
     otp = random.randint(100000, 999999)
-    print(f"User Email: {user.email}")  # This will print the email to the console
-    user_email = 'sabakatamadze@gmail.com'
+    user_email = user.email
     user.is_authorized = False
     user.save()
 
